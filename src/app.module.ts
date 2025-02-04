@@ -4,6 +4,8 @@ import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
+import { PorteurModule } from './porteur/porteur.module';
+import { SoignantModule } from './soignant/soignant.module';
 
 @Module({
   imports: [
@@ -19,7 +21,7 @@ import { ConfigModule } from '@nestjs/config';
       synchronize: true,
         
     }),
-  }),ConfigModule.forRoot(),UserModule],
+  }),ConfigModule.forRoot(),UserModule, PorteurModule, SoignantModule],
   controllers: [AppController],
   providers: [AppService],
 
