@@ -4,36 +4,48 @@ import { UpdateSoignantDto } from './dto/update-soignant.dto';
 import { Soignant } from './entities/soignant.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class SoignantService {
-  soignantRepository: any;
   constructor(
       @InjectRepository(Soignant)
       private SoignantRepository: Repository<Soignant>,
     ) {}
-  create(createSoignantDto: CreateSoignantDto) {
-    let soignant = this.soignantRepository.create(createSoignantDto);
-    return this.soignantRepository.save(soignant);
+  async create(createSoignantDto: CreateSoignantDto) {
+      const  soignantcreate=  (this.SoignantRepository.create(createSoignantDto))
+      soignantcreate.password = await (await this.hashPassword(soignantcreate.password)).toString();
+      console.log('user après hachage du mot de passe :', soignantcreate.password);
+  
+      return this.SoignantRepository.save(soignantcreate)// save on database
+    }
+      private async hashPassword(password: string): Promise<string> {
+      const saltOrRounds = 15; 
+      return bcrypt.hash(password, saltOrRounds);
+    }
+    
+  findByEmail(email){
+    return this.SoignantRepository.findOne({where:{email:email}})
   }
 
+
   findAll() {
-    return this.soignantRepository.findAll();
+    return this.SoignantRepository.findAndCount();
   }
 
   findOne(id: number) {
-    return this.soignantRepository.findOne(id);
+    return this.SoignantRepository.findOne({where:{id:id}});
   }
 
-  update(id: number, updateSoignantDto: UpdateSoignantDto) {
-    let soignant = this.soignantRepository.preload({
+  async update(id: number, updateSoignantDto: UpdateSoignantDto) {
+    let soignant =await this.SoignantRepository.preload({
       id:+id,
     ...updateSoignantDto
     })
-    return this.soignantRepository.save(soignant);
+    return this.SoignantRepository.save(soignant);
   }
 
   remove(id: number) {
-    return this.soignantRepository.delete(id);
+    return this.SoignantRepository.delete(id);
   }
 }

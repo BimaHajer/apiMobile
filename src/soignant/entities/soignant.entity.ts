@@ -9,6 +9,9 @@ export class Soignant {
   
     @Column('text',{name:"lastName",nullable:true})
     lastName: string;
+
+    @Column('text',{name:"email",nullable:true})
+    email: string;
   
 
     @Column('text',{name:"numero",nullable:true})
