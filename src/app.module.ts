@@ -7,6 +7,8 @@ import { ConfigModule } from '@nestjs/config';
 import { PorteurModule } from './porteur/porteur.module';
 import { SoignantModule } from './soignant/soignant.module';
 
+
+
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
@@ -21,7 +23,7 @@ import { SoignantModule } from './soignant/soignant.module';
       synchronize: true,
         
     }),
-  }),ConfigModule.forRoot(),UserModule, PorteurModule, SoignantModule],
+  }),ConfigModule.forRoot(),UserModule, PorteurModule, SoignantModule,],
   controllers: [AppController],
   providers: [AppService],
 

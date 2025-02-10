@@ -10,6 +10,8 @@ export class User {
     @Column('text',{name:"lastName",nullable:true})
     lastName: string;
   
+    @Column('text',{name:"email",nullable:true})
+    email: string;
 
     @Column('text',{name:"role",nullable:true})
     role: string;
